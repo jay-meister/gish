@@ -1,0 +1,83 @@
+#!/bin/sh
+
+# Add your github username
+USER_NAME=
+# Add your github access token
+ACCESS_TOKEN=
+
+GITHUB_URL=https://api.github.com
+ISSUE_NUM=0
+COMMENT=$2
+
+getOrgRepo() {
+  MYVAR=$(exec git remote -v | grep origin | grep push)
+  NAME=${MYVAR%.git*}
+  NAME=${NAME#*//github.com}
+  echo $NAME
+}
+ORG_REPO=$(getOrgRepo)
+
+
+# curl -d "{ \"body\": \"${COMMENT}\" }" -u $USER_NAME:$ACCESS_TOKEN $GITHUB_URL/repos$ORG_REPO/issues/$ISSUE_NUM/comments
+
+# gish get <issue_num>
+if [ $1 = get ]
+then
+  re='^[0-9]+$'
+  if [[ $2 =~ $re ]]
+  then
+    ISSUE_NUM=$2
+    curl -u $USER_NAME:$ACCESS_TOKEN $GITHUB_URL/repos$ORG_REPO/issues/$ISSUE_NUM | grep 'body\|login'
+    curl -u $USER_NAME:$ACCESS_TOKEN $GITHUB_URL/repos$ORG_REPO/issues/$ISSUE_NUM/comments | grep 'body\|login'
+
+  # gish get
+  else
+    curl -u $USER_NAME:$ACCESS_TOKEN $GITHUB_URL/repos$ORG_REPO/issues | grep '"number"\|"title"\|"comments"'
+  fi
+fi
+
+# gish comment <issue_num> <comment>
+if [ $1 = comment ]
+then
+  ISSUE_NUM=$2
+  COMMENT=$3
+  # curl -d "{ \"body\": \"${COMMENT}\" }" -u $USER_NAME:$ACCESS_TOKEN $GITHUB_URL/repos$ORG_REPO/issues/$ISSUE_NUM/comments
+fi
+
+# gish browser
+if [ $1 = browser ]
+then
+  ISSUE_NUM=$(cat /tmp/gish.dat)
+  open https://github.com$ORG_REPO/issues/$ISSUE_NUM
+fi
+
+# starting and finishing an issue
+if [ $1 = start ]
+then
+  ISSUE_NUM=$2
+  # if we don't have a file, start at zero
+  if [ ! -f "/tmp/gish.dat" ]
+  then
+    exec touch /tmp/gish.dat
+  fi
+
+  # show it to the user
+  echo "issue number: ${ISSUE_NUM}"
+
+  # and save it for next time
+  echo "${ISSUE_NUM}" > /tmp/gish.dat
+
+fi
+
+if [ $1 = end ]
+then
+  if [ ! -f "/tmp/gish.dat" ]
+  then
+    echo 'No issue has started'
+    return 1
+  else
+    ISSUE_NUM=$(cat /tmp/gish.dat)
+    echo 'finishing issue number ' $ISSUE_NUM
+    echo "" > /tmp/gish.dat
+  fi
+fi
