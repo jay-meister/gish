@@ -92,4 +92,4 @@ then
 fi
 
 # POST NEW ISSUE WITH ASSIGNMENT
-# curl -d "{\"assignees\": [ \"JMurphyWeb\" ], \"title\": \"TEST\"}" -u JMurphyWeb:204b9a7b6a84e824c25aca28576a32dd25e89e4a https://api.github.com/repos/JMurphyWeb/gish/issues
+# curl -d "{\"assignees\": [ \"JMurphyWeb\" ], \"title\": \"TEST\"}" -u username:token https://api.github.com/repos/JMurphyWeb/gish/issues
