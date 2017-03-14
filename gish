@@ -17,9 +17,6 @@ getOrgRepo() {
 }
 ORG_REPO=$(getOrgRepo)
 
-
-# curl -d "{ \"body\": \"${COMMENT}\" }" -u $USER_NAME:$ACCESS_TOKEN $GITHUB_URL/repos$ORG_REPO/issues/$ISSUE_NUM/comments
-
 # gish get <issue_num>
 if [ $1 = get ]
 then
@@ -41,13 +38,13 @@ if [ $1 = comment ]
 then
   ISSUE_NUM=$2
   COMMENT=$3
-  # curl -d "{ \"body\": \"${COMMENT}\" }" -u $USER_NAME:$ACCESS_TOKEN $GITHUB_URL/repos$ORG_REPO/issues/$ISSUE_NUM/comments
+  curl -d "{ \"body\": \"${COMMENT}\" }" -u $USER_NAME:$ACCESS_TOKEN $GITHUB_URL/repos$ORG_REPO/issues/$ISSUE_NUM/comments
 fi
 
 # gish browser
 if [ $1 = browser ]
 then
-  ISSUE_NUM=$(cat /tmp/gish.dat)
+  ISSUE_NUM=$(cat /tmp/gish${ORG_REPO}/gish.dat)
   open https://github.com$ORG_REPO/issues/$ISSUE_NUM
 fi
 
@@ -56,28 +53,43 @@ if [ $1 = start ]
 then
   ISSUE_NUM=$2
   # if we don't have a file, start at zero
-  if [ ! -f "/tmp/gish.dat" ]
+  if [ ! -f "/tmp/gish$ORG_REPO/gish.dat" ]
+  # Should check if there is already an issue?
   then
-    exec touch /tmp/gish.dat
+    mkdir -p "/tmp/gish$ORG_REPO}"
+    touch /tmp$ORG_REPO/gish.dat
   fi
 
+  # Add assignent on github
+  curl -d "{\"assignees\": [ \"$USER_NAME\" ] }" -u $USER_NAME:$ACCESS_TOKEN $GITHUB_URL/repos$ORG_REPO/issues/$ISSUE_NUM \
+    | grep "title\|body"
+
   # show it to the user
-  echo "issue number: ${ISSUE_NUM}"
+  echo "You are now assigned to issue number: ${ISSUE_NUM}"
+  echo "to open in the browser, type 'gish browser'"
+  echo "to view issue, type 'gish get ${ISSUE_NUM}'"
+  echo "to end the issue, type 'gish end'"
 
   # and save it for next time
-  echo "${ISSUE_NUM}" > /tmp/gish.dat
+  echo "${ISSUE_NUM}" > /tmp/gish$ORG_REPO/gish.dat
 
 fi
 
 if [ $1 = end ]
 then
-  if [ ! -f "/tmp/gish.dat" ]
+  if [ ! -f "/tmp/gish${ORG_REPO}/gish.dat" ]
   then
     echo 'No issue has started'
     return 1
   else
-    ISSUE_NUM=$(cat /tmp/gish.dat)
-    echo 'finishing issue number ' $ISSUE_NUM
-    echo "" > /tmp/gish.dat
+    ISSUE_NUM=$(cat /tmp/gish${ORG_REPO}/gish.dat)
+
+    # Remove assignent on github
+    curl -d "{\"assignees\": [] }" -u $USER_NAME:$ACCESS_TOKEN $GITHUB_URL/repos$ORG_REPO/issues/$ISSUE_NUM
+    echo 'finishing issue number '$ISSUE_NUM
+    echo "" > /tmp/gish${ORG_REPO}/gish.dat
   fi
 fi
+
+# POST NEW ISSUE WITH ASSIGNMENT
+# curl -d "{\"assignees\": [ \"JMurphyWeb\" ], \"title\": \"TEST\"}" -u JMurphyWeb:204b9a7b6a84e824c25aca28576a32dd25e89e4a https://api.github.com/repos/JMurphyWeb/gish/issues
