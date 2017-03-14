@@ -33,16 +33,25 @@ repo_information() {
     echo "%F{blue}${vcs_info_msg_0_%%/.} %F{8}$vcs_info_msg_1_`git_dirty` $vcs_info_msg_2_%f %F{red}$ISSUE"
 }
 
+getOrgRepo() {
+  MYVAR=$(exec git remote -v | grep origin | grep push)
+  NAME=${MYVAR%.git*}
+  NAME=${NAME#*//github.com}
+  echo $NAME
+}
+ORG_REPO=$(getOrgRepo)
+
 # Thanks for help Shouston3
 get_issue() {
-    if [ -f "/tmp/gish.dat" ]
-    then
-        num="$(grep -Erho '[0-9]+' /tmp/gish.dat)"
-        if [ "$num" ]
-        then
-            echo "#$num"
-        fi
-    fi
+  ORG_REPO=$(getOrgRepo)
+  if [ -f "/tmp/gish$ORG_REPO/gish.dat" ]
+  then
+      num="$(grep -Erho '[0-9]+' /tmp/gish$ORG_REPO/gish.dat)"
+      if [ "$num" ]
+      then
+          echo "#$num"
+      fi
+  fi
 }
 
 # Displays the exec time of the last command if set threshold was exceeded

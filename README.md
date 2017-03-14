@@ -19,7 +19,7 @@ Gets title, description and comments of specified issue
 ```bash
 $ gish start <issue number>
 ```
-Stores the issue number locally that you are working on, if used with the custom pure zsh theme, it also adds the issue number to the command line prompt so you never have to check:
+Assigns user to said issue and stores the number locally, if used with the custom pure zsh theme, it also adds the issue number to the command line prompt so you never have to check:
 
 ![screen shot](./assets/gish-start.png)
 
@@ -32,7 +32,7 @@ Adds a comment to specified issue number
 ```bash
 $ gish end
 ```
-Ends the issue you are working on
+Removes assignment on GitHub and removes the issue from command line prompt (for users with custom zsh theme set up)
 
 ```bash
 $ gish browser
