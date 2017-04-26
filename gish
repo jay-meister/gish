@@ -91,5 +91,16 @@ then
   fi
 fi
 
+
+if [ $1 = repo ]
+then
+  echo "________ inside function __________"
+  curl -d "{\"name\": \"$2\" }" -u $USER_NAME:$ACCESS_TOKEN $GITHUB_URL/user/repos \
+  | grep "git_url"
+  echo "Now run…"
+  echo "git remote add origin https://github.com/JMurphyWeb/$2.git"
+  echo "git push -u origin master"
+fi
+
 # POST NEW ISSUE WITH ASSIGNMENT
 # curl -d "{\"assignees\": [ \"JMurphyWeb\" ], \"title\": \"TEST\"}" -u username:token https://api.github.com/repos/JMurphyWeb/gish/issues
