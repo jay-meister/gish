@@ -48,6 +48,18 @@ then
   open https://github.com$ORG_REPO/issues/$ISSUE_NUM
 fi
 
+
+# creating an issue
+if [ $1 = create ]
+then
+  TITLE=$2
+  DESC=$3
+  # Create the issue on github
+  curl -d "{\"title\": \"$TITLE\", \"body\": \"$DESC\" }" -u $USER_NAME:$ACCESS_TOKEN $GITHUB_URL/repos$ORG_REPO/issues \
+    | grep "number\|title"
+fi
+
+
 # starting and finishing an issue
 if [ $1 = start ]
 then
