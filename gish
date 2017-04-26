@@ -72,7 +72,6 @@ then
 
   # and save it for next time
   echo "${ISSUE_NUM}" > /tmp/gish$ORG_REPO/gish.dat
-
 fi
 
 if [ $1 = end ]
@@ -100,6 +99,19 @@ then
   echo "Now run…"
   echo "git remote add origin https://github.com/JMurphyWeb/$2.git"
   echo "git push -u origin master"
+fi
+
+
+if [ $1 = "-h" ]
+then
+  echo "gish repo <repo-name>                      ---   Create a new repo with given name"
+  echo "gish create \"<title>\" \"<description>\"      ---   Create a new repo with given name"
+  echo "gish get                                   ---   Get list of issues"
+  echo "gish get <issue_number>                    ---   Get description and comments of a given issue"
+  echo "gish start <issue_number>                  ---   Starts an issue (assigns you)"
+  echo "gish comment <issue_number> \"<comment>\"    ---   Adds a comment to an issue"
+  echo "gish browser                               ---   Opens the current issue in the browser"
+  echo "gish end                                   ---   Remove assignment of the current issue"
 fi
 
 # POST NEW ISSUE WITH ASSIGNMENT
