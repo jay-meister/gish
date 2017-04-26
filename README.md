@@ -3,6 +3,26 @@
 gish exposes the following commands:
 
 
+
+```bash
+$ gish -h
+```
+Get a list of the available commands.
+
+
+```bash
+$ gish repo <title>
+```
+Creates a new github repo. Returns the new repo's git url.
+
+
+```bash
+$ gish create <title> <body>
+```
+Creates a new issue
+
+
+
 ```bash
 $ gish get
 ```
