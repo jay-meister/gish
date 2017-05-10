@@ -38,7 +38,7 @@ if [ $1 = comment ]
 then
   ISSUE_NUM=$2
   COMMENT=$3
-  curl -d "{ \"body\": \"${COMMENT}\" }" -u $USER_NAME:$ACCESS_TOKEN $GITHUB_URL/repos$ORG_REPO/issues/$ISSUE_NUM/comments
+  curl -s -d "{ \"body\": \"${COMMENT}\" }" -u $USER_NAME:$ACCESS_TOKEN $GITHUB_URL/repos$ORG_REPO/issues/$ISSUE_NUM/comments
 fi
 
 # gish browser
@@ -55,10 +55,9 @@ then
   TITLE=$2
   DESC=$3
   # Create the issue on github
-  curl -d "{\"title\": \"$TITLE\", \"body\": \"$DESC\" }" -u $USER_NAME:$ACCESS_TOKEN $GITHUB_URL/repos$ORG_REPO/issues \
+  curl -s -d "{\"title\": \"$TITLE\", \"body\": \"$DESC\" }" -u $USER_NAME:$ACCESS_TOKEN $GITHUB_URL/repos$ORG_REPO/issues \
     | grep "number\|title"
 fi
-
 
 # starting and finishing an issue
 if [ $1 = start ]
@@ -100,7 +99,7 @@ then
     ISSUE_NUM=$(cat /tmp/gish${ORG_REPO}/gish.dat)
 
     # Remove assignent on github
-    curl -d "{\"assignees\": [] }" -u $USER_NAME:$ACCESS_TOKEN $GITHUB_URL/repos$ORG_REPO/issues/$ISSUE_NUM
+    curl -s -d "{\"assignees\": [] }" -u $USER_NAME:$ACCESS_TOKEN $GITHUB_URL/repos$ORG_REPO/issues/$ISSUE_NUM
     echo 'finishing issue number '$ISSUE_NUM
     echo "" > /tmp/gish${ORG_REPO}/gish.dat
   fi
@@ -110,7 +109,7 @@ fi
 if [ $1 = repo ]
 then
   echo "________ inside function __________"
-  curl -d "{\"name\": \"$2\" }" -u $USER_NAME:$ACCESS_TOKEN $GITHUB_URL/user/repos \
+  curl -s -d "{\"name\": \"$2\" }" -u $USER_NAME:$ACCESS_TOKEN $GITHUB_URL/user/repos \
   | grep "git_url"
   echo "Now run…"
   echo "git remote add origin https://github.com/JMurphyWeb/$2.git"
