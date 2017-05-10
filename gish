@@ -24,12 +24,12 @@ then
   if [[ $2 =~ $re ]]
   then
     ISSUE_NUM=$2
-    curl -u $USER_NAME:$ACCESS_TOKEN $GITHUB_URL/repos$ORG_REPO/issues/$ISSUE_NUM | grep 'body\|login'
-    curl -u $USER_NAME:$ACCESS_TOKEN $GITHUB_URL/repos$ORG_REPO/issues/$ISSUE_NUM/comments | grep 'body\|login'
+    curl -s -u $USER_NAME:$ACCESS_TOKEN $GITHUB_URL/repos$ORG_REPO/issues/$ISSUE_NUM | grep 'body\|login'
+    curl -s -u $USER_NAME:$ACCESS_TOKEN $GITHUB_URL/repos$ORG_REPO/issues/$ISSUE_NUM/comments | grep 'body\|login'
 
   # gish get
   else
-    curl -u $USER_NAME:$ACCESS_TOKEN $GITHUB_URL/repos$ORG_REPO/issues | grep '"number"\|"title"\|"comments"'
+    curl -s -u $USER_NAME:$ACCESS_TOKEN $GITHUB_URL/repos$ORG_REPO/issues | grep '"number"\|"title"\|"comments"'
   fi
 fi
 
