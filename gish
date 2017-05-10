@@ -100,6 +100,8 @@ then
 
     # Remove assignent on github
     curl -s -d "{\"assignees\": [] }" -u $USER_NAME:$ACCESS_TOKEN $GITHUB_URL/repos$ORG_REPO/issues/$ISSUE_NUM
+    curl -s -X DELETE -u $USER_NAME:$ACCESS_TOKEN $GITHUB_URL/repos$ORG_REPO/issues/$ISSUE_NUM/labels/in-progress
+
     echo 'finishing issue number '$ISSUE_NUM
     echo "" > /tmp/gish${ORG_REPO}/gish.dat
   fi
