@@ -108,7 +108,7 @@ then
 fi
 
 
-if [ $1 = repo ]
+if [ $1 = new_repo ]
 then
   echo "________ inside function __________"
   curl -s -d "{\"name\": \"$2\" }" -u $USER_NAME:$ACCESS_TOKEN $GITHUB_URL/user/repos \
@@ -118,10 +118,9 @@ then
   echo "git push -u origin master"
 fi
 
-
 if [ $1 = "-h" ]
 then
-  echo "gish repo <repo-name>                      ---   Create a new repo with given name"
+  echo "gish new_repo <repo-name>                  ---   Create a new repo with given name"
   echo "gish create \"<title>\" \"<description>\"      ---   Create a new repo with given name"
   echo "gish get                                   ---   Get list of issues"
   echo "gish get <issue_number>                    ---   Get description and comments of a given issue"
@@ -130,6 +129,3 @@ then
   echo "gish browser                               ---   Opens the current issue in the browser"
   echo "gish end                                   ---   Remove assignment of the current issue"
 fi
-
-# POST NEW ISSUE WITH ASSIGNMENT
-# curl -d "{\"assignees\": [ \"JMurphyWeb\" ], \"title\": \"TEST\"}" -u username:token https://api.github.com/repos/JMurphyWeb/gish/issues
