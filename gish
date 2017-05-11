@@ -47,7 +47,16 @@ if [ $1 = commit ]
 then
   COMMENT=$2
   ISSUE_NUM=$(cat /tmp/gish${ORG_REPO}/gish.dat)
-  git commit -m "#$ISSUE_NUM - $COMMENT"
+
+  re='^[0-9]+$'
+  if [[ $ISSUE_NUM =~ $re ]]
+  then
+    # if an issue has been started
+    git commit -m "#$ISSUE_NUM - $COMMENT"
+  else
+    # if an issue has not been started
+    git commit -m "$COMMENT"
+  fi
 fi
 
 
