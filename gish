@@ -120,11 +120,10 @@ fi
 
 if [ $1 = new_repo ]
 then
-  echo "________ inside function __________"
   curl -s -d "{\"name\": \"$2\" }" -u $USER_NAME:$ACCESS_TOKEN $GITHUB_URL/user/repos \
   | grep "git_url"
-  echo "Now run…"
-  echo "git remote add origin https://github.com/JMurphyWeb/$2.git"
+  echo "Now adding remote branch origin…"
+  git remote add origin https://github.com/JMurphyWeb/$2.git
   echo "git push -u origin master"
 fi
 
@@ -134,7 +133,7 @@ then
   echo "gish create \"<title>\" \"<description>\"      ---   Create a new repo with given name"
   echo "gish get                                   ---   Get list of issues"
   echo "gish get <issue_number>                    ---   Get description and comments of a given issue"
-  echo "gish start <issue_number>                  ---   Starts an issue (assigns you)"
+  echo "gish start <issue_number>                  ---   Starts an issue (assigns you & puts in-progress)"
   echo "gish comment <issue_number> \"<comment>\"    ---   Adds a comment to an issue"
   echo "gish commit \"<comment>\"                    ---   Adds current issue number to commit message"
   echo "gish browser                               ---   Opens the current issue in the browser"
