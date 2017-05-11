@@ -41,6 +41,16 @@ then
   curl -s -d "{ \"body\": \"${COMMENT}\" }" -u $USER_NAME:$ACCESS_TOKEN $GITHUB_URL/repos$ORG_REPO/issues/$ISSUE_NUM/comments
 fi
 
+
+# gish commit <comment>
+if [ $1 = commit ]
+then
+  COMMENT=$2
+  ISSUE_NUM=$(cat /tmp/gish${ORG_REPO}/gish.dat)
+  git commit -m "#$ISSUE_NUM - $COMMENT"
+fi
+
+
 # gish browser
 if [ $1 = browser ]
 then
@@ -126,6 +136,7 @@ then
   echo "gish get <issue_number>                    ---   Get description and comments of a given issue"
   echo "gish start <issue_number>                  ---   Starts an issue (assigns you)"
   echo "gish comment <issue_number> \"<comment>\"    ---   Adds a comment to an issue"
+  echo "gish commit \"<comment>\"                    ---   Adds current issue number to commit message"
   echo "gish browser                               ---   Opens the current issue in the browser"
   echo "gish end                                   ---   Remove assignment of the current issue"
 fi
