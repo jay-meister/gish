@@ -11,9 +11,9 @@ Get a list of the available commands.
 
 
 ```bash
-$ gish repo <title>
+$ gish new_repo <title>
 ```
-Creates a new github repo. Returns the new repo's git url.
+Creates a new github repo and adds remote branch called `origin`.
 
 
 ```bash
@@ -39,7 +39,7 @@ Gets title, description and comments of specified issue
 ```bash
 $ gish start <issue number>
 ```
-Assigns user to said issue and stores the number locally, if used with the custom pure zsh theme, it also adds the issue number to the command line prompt so you never have to check:
+Assigns user to said issue, adds the `in-progress` label and stores the number locally. If used with the custom pure zsh theme, it also adds the issue number to the command line prompt so you never have to check:
 
 ![screen shot](./assets/gish-start.png)
 
@@ -49,10 +49,20 @@ gish comment <issue number> <comment>
 ```
 Adds a comment to specified issue number
 
+
+```bash
+gish commit <comment>
+```
+Adds a git commit with the message prefixed with the previously started issue number:
+
+- `$ gish start 4`
+- `$ gish commit "fixes dashboard url"` -> message becomes: `#4 - fixes dashboard url`
+
+
 ```bash
 $ gish end
 ```
-Removes assignment on GitHub and removes the issue from command line prompt (for users with custom zsh theme set up)
+Removes assignment and `in-progress` label on GitHub and removes the issue from command line prompt (for users with custom zsh theme set up)
 
 ```bash
 $ gish browser
