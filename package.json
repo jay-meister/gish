@@ -1,6 +1,6 @@
 {
-  "name": "gish",
-  "version": "1.0.0",
+  "name": "gish-workflow",
+  "version": "1.0.1",
   "description": "GitHub workflow CLI",
   "main": "gish",
   "scripts": {
