@@ -1,13 +1,41 @@
 #!/bin/sh
 
-# Add your github username
-USER_NAME=
-# Add your github access token
-ACCESS_TOKEN=
+writeGitCredentials() {
+  echo "Enter your github username"
+  read USER_NAME
+  echo "Enter your github access token"
+  read ACCESS_TOKEN
+  echo "USER_NAME=$USER_NAME\nACCESS_TOKEN=$ACCESS_TOKEN" > ~/.gish.env
+  source ~/.gish.env
+}
+
+# Ensure there is a file to store github credentials
+if [ ! -f ~/.gish.env ]
+then
+  touch ~/.gish.env
+  writeGitCredentials
+fi
+
+# source gish.env if variables are not accessible
+if [ -z "$USER_NAME" ] || [ -z "$ACCESS_TOKEN" ] ; then
+  source ~/.gish.env
+  # If varables are not available, ask for them again
+  if [ -z "$USER_NAME" ] || [ -z "$ACCESS_TOKEN" ] ; then
+    writeGitCredentials
+  fi
+fi
+
+
+# Exit if we are not in a git directory
+if [ ! -d .git ]; then
+  echo "You are not in a git directory"
+  exit 1
+fi
+
+
+
 
 GITHUB_URL=https://api.github.com
-ISSUE_NUM=0
-COMMENT=$2
 
 getOrgRepo() {
   MYVAR=$(exec git remote -v | grep origin | grep push)
@@ -15,7 +43,12 @@ getOrgRepo() {
   NAME=${NAME#*//github.com}
   echo $NAME
 }
+
 ORG_REPO=$(getOrgRepo)
+
+
+# --------------------------------------- #
+# --------------------------------------- #
 
 # gish get <issue_num>
 if [ $1 = get ]

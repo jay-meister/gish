@@ -1,0 +1,22 @@
+{
+  "name": "gish",
+  "version": "1.0.0",
+  "description": "GitHub workflow CLI",
+  "main": "gish",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jmurphyweb/gish.git"
+  },
+  "author": "https://github.com/jmurphyweb",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jmurphyweb/gish/issues"
+  },
+  "bin": {
+    "gish": "./bin/gish.sh"
+    },
+  "homepage": "https://github.com/jmurphyweb/gish#readme"
+}
