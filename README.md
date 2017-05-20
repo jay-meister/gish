@@ -1,7 +1,18 @@
 ## gish - command line github workflow tool
 
-gish exposes the following commands:
 
+### Getting started
+
+1. run `npm install gish-workflow -g`
+
+2. Generate a personal access token by following [this link](https://github.com/settings/tokens)
+
+3. Run `gish` which will prompt you to enter your GitHub username and your new access token
+
+
+### Interface
+
+gish exposes the following commands:
 
 
 ```bash
